@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.leo.adoption.adapter.AdoptionAdapter
 import com.leo.adoption.databinding.FragmentHomeBinding
 import com.leo.adoption.pojo.Adoption
+import com.leo.adoption.ui.activities.AdoptionActivity
 import com.leo.adoption.ui.activities.AdoptionStepActivity
 import com.leo.adoption.viewmodel.HomeViewModel
 import kotlin.random.Random
@@ -23,6 +24,12 @@ class HomeFragment : Fragment() {
     private lateinit var homeMvvm: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adoptionItemAdapter: AdoptionAdapter
+
+    companion object {
+        const val ADOPTION_ID = "com.leo.adoption.ui.fragments.animal_id"
+        const val ADOPTION_VARIETY = "com.leo.adoption.ui.fragments.animal_variety"
+        const val ADOPTION_IMAGE = "com.leo.adoption.ui.fragments.album_file"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +50,26 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         itemsClick()
-        adoptionStetClick()
+        adoptionStepClick()
         prepareAdoptionItemsRecyclerView()
         homeMvvm.getAdoption()
         observeAdoptionItemsLiveData()
+        adoptionClick()
 
 
     }
 
-    private fun adoptionStetClick() {
+    private fun adoptionClick() {
+        adoptionItemAdapter.onItemClick = {
+            val intent = Intent(activity, AdoptionActivity::class.java)
+            intent.putExtra(ADOPTION_ID, it.animal_id.toString())
+            intent.putExtra(ADOPTION_VARIETY, it.animal_Variety)
+            intent.putExtra(ADOPTION_IMAGE, it.album_file)
+            startActivity(intent)
+        }
+    }
+
+    private fun adoptionStepClick() {
         binding.imgRandomMeal.setOnClickListener {
             val intent = Intent(activity, AdoptionStepActivity::class.java)
             startActivity(intent)
@@ -65,7 +83,6 @@ class HomeFragment : Fragment() {
             ) { adoptionList ->
                 adoptionItemAdapter.setAdoptions(adoptionList as ArrayList<Adoption>)
             }
-            prepareAdoptionItemsRecyclerView()
             prepareAdoptionItemsRecyclerView()
         }
         binding.categoryDogs.setOnClickListener {
@@ -97,11 +114,12 @@ class HomeFragment : Fragment() {
             adapter = adoptionItemAdapter
         }
     }
+
     private fun observeAdoptionItemsLiveData() {
         homeMvvm.observeAdoptionItemLivedata().observe(
             viewLifecycleOwner
         ) { adoptionList ->
-            var random= Random.nextInt(100)
+            var random = Random.nextInt(100)
             Glide.with(this@HomeFragment)
                 .load(adoptionList[random].album_file)
                 .into(binding.imgRandomMeal)

@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import com.leo.adoption.R
 import com.leo.adoption.databinding.AdoptionItemBinding
 import com.leo.adoption.pojo.Adoption
+import com.leo.adoption.pojo.AdoptionList
 
 class AdoptionAdapter : Adapter<AdoptionAdapter.AdoptionViewHolder>() {
     private var adoptionsList = ArrayList<Adoption>()
+    lateinit var onItemClick: ((Adoption) -> Unit)
     fun setAdoptions(adoptionsList: ArrayList<Adoption>) {
         this.adoptionsList = adoptionsList
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdoptionViewHolder {
@@ -42,6 +44,9 @@ class AdoptionAdapter : Adapter<AdoptionAdapter.AdoptionViewHolder>() {
                 "F" -> textSex.text = "母"
             }
             textAddress.text = adoptionsList[position].animal_place
+        }
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(adoptionsList[position])
         }
     }
 

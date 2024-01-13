@@ -25,7 +25,7 @@ class HomeViewModel : ViewModel() {
                 ) {
                     if (response.body() != null) {
                         adoptionLiveData.value = response.body()
-                        Log.d(TAG, "onResponse HomeViewModel ${response.body()}")
+//                        Log.d(TAG, "onResponse HomeViewModel ${response.body()}")
                     }
                 }
                 override fun onFailure(call: Call<List<Adoption>>, t: Throwable) {
