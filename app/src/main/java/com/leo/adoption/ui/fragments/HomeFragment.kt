@@ -16,6 +16,7 @@ import com.leo.adoption.databinding.FragmentHomeBinding
 import com.leo.adoption.pojo.Adoption
 import com.leo.adoption.ui.activities.AdoptionActivity
 import com.leo.adoption.ui.activities.AdoptionStepActivity
+import com.leo.adoption.ui.activities.MainActivity
 import com.leo.adoption.viewmodel.HomeViewModel
 import kotlin.random.Random
 
@@ -33,7 +34,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeMvvm = ViewModelProvider(this)[HomeViewModel::class.java]
+//        homeMvvm = ViewModelProvider(this)[HomeViewModel::class.java]
+        homeMvvm = (activity as MainActivity).viewModel
         adoptionItemAdapter = AdoptionAdapter()
     }
 
