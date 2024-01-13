@@ -123,10 +123,9 @@ class HomeFragment : Fragment() {
         ) { adoptionList ->
             var random = Random.nextInt(100)
             Glide.with(this@HomeFragment)
-                .load(adoptionList[random].album_file)
+                .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7tybD0QZK4ewrAD6ZJz0lUTtNxXjU0Fp9Ag&usqp=CAU")
                 .into(binding.imgRandomMeal)
-            var ado = adoptionList.filter { it.animal_kind == "貓" }
-            adoptionItemAdapter.setAdoptions(ado as ArrayList<Adoption>)
+            adoptionItemAdapter.setAdoptions(adoptionList as ArrayList<Adoption>)
         }
     }
 }

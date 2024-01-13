@@ -19,6 +19,7 @@ class HomeViewModel(private var adoptionDatabase: AdoptionDatabase) : ViewModel(
     private val TAG: String? = HomeViewModel::class.java.simpleName
     private val adoptionLiveData = MutableLiveData<List<Adoption>>()
     private val favoriteLiveData = adoptionDatabase.adoptionDao().getAllAdoption()
+    private val searchedMealsLiveData = MutableLiveData<List<Adoption>>()
 
 
     fun getAdoption() {
@@ -43,16 +44,40 @@ class HomeViewModel(private var adoptionDatabase: AdoptionDatabase) : ViewModel(
     fun observeAdoptionItemLivedata(): LiveData<List<Adoption>> {
         return adoptionLiveData
     }
-    fun observeFavoriteLivedata():LiveData<List<Adoption>>{
+
+    fun observeFavoriteLivedata(): LiveData<List<Adoption>> {
         return favoriteLiveData
     }
+
+    fun observeSearchedMealsLiveData(): LiveData<List<Adoption>> = searchedMealsLiveData
     fun deleteMeal(adoption: Adoption) {
         viewModelScope.launch {
             adoptionDatabase.adoptionDao().delete(adoption)
         }
-    }fun insertMeal(adoption: Adoption) {
+    }
+
+    fun insertMeal(adoption: Adoption) {
         viewModelScope.launch {
             adoptionDatabase.adoptionDao().upsert(adoption)
         }
     }
+
+    fun searchAdoption(searchQuery: String) =
+        RetrofitInstance.api.getAdoptions("QcbUEzN6E6DL", 1).enqueue(
+            object : Callback<List<Adoption>> {
+                override fun onResponse(
+                    call: Call<List<Adoption>>,
+                    response: Response<List<Adoption>>
+                ) {
+                    val adoptionList = response.body()
+                    adoptionList.let {
+                        searchedMealsLiveData.postValue(it)
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Adoption>>, t: Throwable) {
+                    Log.e("HomeViewModel", t.message.toString())
+                }
+            }
+        )
 }
