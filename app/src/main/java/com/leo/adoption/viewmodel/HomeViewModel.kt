@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leo.adoption.db.AdoptionDatabase
 import com.leo.adoption.pojo.Adoption
-import com.leo.adoption.pojo.AdoptionList
 import com.leo.adoption.retrofit.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -69,9 +68,18 @@ class HomeViewModel(private var adoptionDatabase: AdoptionDatabase) : ViewModel(
                     call: Call<List<Adoption>>,
                     response: Response<List<Adoption>>
                 ) {
-                    val adoptionList = response.body()
-                    adoptionList.let {
-                        searchedMealsLiveData.postValue(it)
+                    val adoptionList = response.body() as ArrayList<Adoption>
+                    if (searchQuery != null) {
+                        var filterList = ArrayList<Adoption>()
+                        for (i in adoptionList!!) {
+                            if (i.animal_kind!!.contains(searchQuery) || i.shelter_address!!.contains(searchQuery)
+                            ) {
+                                filterList.add(i)
+                            }
+                        }
+                        filterList.let {
+                            searchedMealsLiveData.postValue(it)
+                        }
                     }
                 }
 

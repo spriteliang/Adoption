@@ -72,9 +72,7 @@ class FavoriteFragment : Fragment() {
     private fun adoptionClick() {
         favoritesAdapter.onItemClick = {
             val intent = Intent(activity, AdoptionActivity::class.java)
-            intent.putExtra(HomeFragment.ADOPTION_ID, it.animal_id.toString())
-            intent.putExtra(HomeFragment.ADOPTION_VARIETY, it.animal_Variety)
-            intent.putExtra(HomeFragment.ADOPTION_IMAGE, it.album_file)
+            intent.putExtra("ADOPTION_ID", it.animal_id.toString())
             startActivity(intent)
         }
     }

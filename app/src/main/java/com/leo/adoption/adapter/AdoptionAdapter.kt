@@ -15,6 +15,7 @@ class AdoptionAdapter : Adapter<AdoptionAdapter.AdoptionViewHolder>() {
     lateinit var onItemClick: ((Adoption) -> Unit)
     fun setAdoptions(adoptionsList: ArrayList<Adoption>) {
         this.adoptionsList = adoptionsList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdoptionViewHolder {

@@ -1,42 +1,45 @@
 package com.leo.adoption.ui.fragments
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.leo.adoption.R
 import com.leo.adoption.adapter.AdoptionAdapter
+import com.leo.adoption.adapter.CategoryAdapter
 import com.leo.adoption.databinding.FragmentHomeBinding
 import com.leo.adoption.pojo.Adoption
+import com.leo.adoption.pojo.Category
 import com.leo.adoption.ui.activities.AdoptionActivity
 import com.leo.adoption.ui.activities.AdoptionStepActivity
 import com.leo.adoption.ui.activities.MainActivity
 import com.leo.adoption.viewmodel.HomeViewModel
-import kotlin.random.Random
 
 
 class HomeFragment : Fragment() {
+    private val TAG: String? = HomeFragment::class.java.simpleName
     private lateinit var homeMvvm: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adoptionItemAdapter: AdoptionAdapter
+    private lateinit var adoptionAdapter: AdoptionAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
+    private var animalKind: String = "New"
 
-    companion object {
-        const val ADOPTION_ID = "com.leo.adoption.ui.fragments.animal_id"
-        const val ADOPTION_VARIETY = "com.leo.adoption.ui.fragments.animal_variety"
-        const val ADOPTION_IMAGE = "com.leo.adoption.ui.fragments.album_file"
-    }
+//    companion object {
+//        const val ADOPTION_ID = "com.leo.adoption.ui.fragments.animal_id"
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        homeMvvm = ViewModelProvider(this)[HomeViewModel::class.java]
         homeMvvm = (activity as MainActivity).viewModel
-        adoptionItemAdapter = AdoptionAdapter()
+        adoptionAdapter = AdoptionAdapter()
+        categoryAdapter = CategoryAdapter()
     }
 
     override fun onCreateView(
@@ -51,81 +54,69 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        itemsClick()
+        prepareAdoptionRecyclerView()
+        prepareCategoryRecyclerView()
+        observeAdoptionItemsLiveData(animalKind)
         adoptionStepClick()
-        prepareAdoptionItemsRecyclerView()
         homeMvvm.getAdoption()
-        observeAdoptionItemsLiveData()
         adoptionClick()
-
-
+        categoryClick()
     }
 
+    //點選adoption會傳id至AdoptionActivity
     private fun adoptionClick() {
-        adoptionItemAdapter.onItemClick = {
+        adoptionAdapter.onItemClick = {
             val intent = Intent(activity, AdoptionActivity::class.java)
-            intent.putExtra(ADOPTION_ID, it.animal_id.toString())
-            intent.putExtra(ADOPTION_VARIETY, it.animal_Variety)
-            intent.putExtra(ADOPTION_IMAGE, it.album_file)
+            intent.putExtra("ADOPTION_ID", it.animal_id.toString())
             startActivity(intent)
+        }
+    }
+    private fun categoryClick(){
+        categoryAdapter.onItemClick={
+            observeAdoptionItemsLiveData(it.name)
+        }
+    }
+
+    private fun prepareCategoryRecyclerView() {
+        var categoryList = ArrayList<Category>()
+        categoryList.add(Category((R.drawable.ic_new), "New"))
+        categoryList.add(Category((R.drawable.ic_dog), "狗"))
+        categoryList.add(Category((R.drawable.ic_cat), "貓"))
+        categoryAdapter.setCategoryList(categoryList)
+        binding.recyCategory.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = categoryAdapter
         }
     }
 
     private fun adoptionStepClick() {
-        binding.imgRandomMeal.setOnClickListener {
-            val intent = Intent(activity, AdoptionStepActivity::class.java)
-            startActivity(intent)
+        Glide.with(this@HomeFragment)
+            .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7tybD0QZK4ewrAD6ZJz0lUTtNxXjU0Fp9Ag&usqp=CAU")
+            .into(binding.imgRandomAdoption)
+        binding.imgRandomAdoption.setOnClickListener {
+            startActivity(Intent(activity, AdoptionStepActivity::class.java))
         }
     }
 
-    private fun itemsClick() {
-        binding.categoryNew.setOnClickListener {
-            homeMvvm.observeAdoptionItemLivedata().observe(
-                viewLifecycleOwner
-            ) { adoptionList ->
-                adoptionItemAdapter.setAdoptions(adoptionList as ArrayList<Adoption>)
-            }
-            prepareAdoptionItemsRecyclerView()
-        }
-        binding.categoryDogs.setOnClickListener {
-            homeMvvm.observeAdoptionItemLivedata().observe(
-                viewLifecycleOwner
-            ) { adoptionList ->
-                var adoptionListDog = adoptionList.filter { it.animal_kind == "狗" }
-                adoptionItemAdapter.setAdoptions(adoptionListDog as ArrayList<Adoption>)
-            }
-            prepareAdoptionItemsRecyclerView()
-        }
-        binding.categoryCat.setOnClickListener {
-            homeMvvm.observeAdoptionItemLivedata().observe(
-                viewLifecycleOwner
-            ) { adoptionList ->
-                var adoptionListCat = adoptionList.filter { it.animal_kind == "貓" }
-                adoptionItemAdapter.setAdoptions(adoptionListCat as ArrayList<Adoption>)
-            }
-            prepareAdoptionItemsRecyclerView()
-        }
 
-
-    }
-
-
-    private fun prepareAdoptionItemsRecyclerView() {
+    private fun prepareAdoptionRecyclerView() {
         binding.recyAdoption.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = adoptionItemAdapter
+            adapter = adoptionAdapter
         }
     }
 
-    private fun observeAdoptionItemsLiveData() {
+    //把adoptionList傳給adoptionAdapter讓recycler讀
+    private fun observeAdoptionItemsLiveData(animalKind: String) {
         homeMvvm.observeAdoptionItemLivedata().observe(
             viewLifecycleOwner
         ) { adoptionList ->
-            var random = Random.nextInt(100)
-            Glide.with(this@HomeFragment)
-                .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7tybD0QZK4ewrAD6ZJz0lUTtNxXjU0Fp9Ag&usqp=CAU")
-                .into(binding.imgRandomMeal)
-            adoptionItemAdapter.setAdoptions(adoptionList as ArrayList<Adoption>)
+            if (animalKind == "New") {
+                adoptionAdapter.setAdoptions(adoptionsList = adoptionList as ArrayList<Adoption>)
+            } else {
+                var adoptionListDog = adoptionList.filter { it.animal_kind == animalKind }
+                adoptionAdapter.setAdoptions(adoptionsList = adoptionListDog as ArrayList<Adoption>)
+            }
         }
     }
 }

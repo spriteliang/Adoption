@@ -6,50 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.StartActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context=".MainActivity">
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button"
+        android:textColor="@color/g_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/view_pager"/>
-<!--        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/dot1"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            app:dotsColor="@android:color/holo_green_light"-->
-<!--            app:selectedDotColor="@android:color/holo_green_dark"-->
-<!--            app:dotsSize="15dp"-->
-<!--            app:dotsSpacing="5dp"-->
-<!--            app:progressMode="true"/>-->
-<!--        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/dot2"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            app:dotsColor="@android:color/holo_orange_light"-->
-<!--            app:selectedDotColor="@android:color/holo_orange_dark"-->
-<!--            app:dotsSize="15dp"-->
-<!--            app:dotsSpacing="5dp"-->
-<!--            app:stiffness="300"/>-->
-<!--        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/dot3"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            app:dotsColor="@android:color/holo_blue_light"-->
-<!--            app:selectedDotColor="@android:color/holo_blue_dark"-->
-<!--            app:dotsSize="15dp"-->
-<!--            app:dotsSpacing="5dp"/>-->
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

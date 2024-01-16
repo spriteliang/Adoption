@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@id/text_home">
 
         <ImageView
-            android:id="@+id/img_random_meal"
+            android:id="@+id/img_random_adoption"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primary"
@@ -56,141 +56,15 @@
         app:layout_constraintStart_toStartOf="@id/text_home"
         app:layout_constraintTop_toBottomOf="@id/rule_adoption" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linear_category"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recy_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/rule_adoption"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/rule_adoption"
-        app:layout_constraintTop_toBottomOf="@id/text_category">
+        app:layout_constraintTop_toBottomOf="@id/text_category" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/category_new"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:padding="5dp"
-                app:cardBackgroundColor="@color/g_gray"
-                app:cardCornerRadius="15dp"
-                tools:ignore="MissingConstraints">
-
-                <ImageView
-                    android:id="@+id/category_new_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_new" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/myfont"
-                android:text="New"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/category_dogs"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="5dp"
-                android:padding="5dp"
-                app:cardBackgroundColor="@color/g_gray"
-                app:cardCornerRadius="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.917"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_category"
-                tools:ignore="MissingConstraints">
-
-                <ImageView
-                    android:id="@+id/category_dogs_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_dog" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/myfont"
-                android:text="Dogs"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/category_cat"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="5dp"
-                android:padding="5dp"
-                app:cardBackgroundColor="@color/g_gray"
-                app:cardCornerRadius="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.917"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_category"
-                tools:ignore="MissingConstraints">
-
-
-                <ImageView
-                    android:id="@+id/category_cat_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_cat" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/myfont"
-                android:text="Cats"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_adoption"
@@ -200,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="@+id/rule_adoption"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="@+id/rule_adoption"
-        app:layout_constraintTop_toBottomOf="@+id/linear_category" />
+        app:layout_constraintTop_toBottomOf="@+id/recy_category" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

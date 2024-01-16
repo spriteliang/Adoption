@@ -1,6 +1,7 @@
 package com.leo.adoption.ui.activities
 
 import android.R
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -27,8 +28,6 @@ import retrofit2.Response
 class AdoptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdoptionBinding
     private lateinit var adoptionId: String
-    private lateinit var adoptionKind: String
-    private lateinit var adoptionImage: String
     private var adoptionItemAdapter = AdoptionItemAdapter()
     private var adoptionList = ArrayList<Adoption>()
     private lateinit var adoptionMvvm: AdoptionViewModel
@@ -51,6 +50,7 @@ class AdoptionActivity : AppCompatActivity() {
             adoptionToSave?.let {
                 adoptionMvvm.insertAdoption(it)
                 Toast.makeText(this, "Adoption Save", Toast.LENGTH_LONG).show()
+
             }
         }
     }
@@ -80,9 +80,10 @@ class AdoptionActivity : AppCompatActivity() {
     }
 
     private fun setInformationInViews(adoptionList: ArrayList<Adoption>) {
-        Glide.with(applicationContext).load(adoptionImage).into(binding.imgAdoptionDetail)
+        Glide.with(applicationContext).load(adoptionList[0].album_file)
+            .into(binding.imgAdoptionDetail)
         binding.collapsingToolbar.apply {
-            title = adoptionKind
+            title = adoptionList[0].animal_Variety
             val typeface: Typeface? =
                 getFont(this@AdoptionActivity, com.leo.adoption.R.font.pingfang)
             setCollapsedTitleTypeface(typeface)
@@ -106,10 +107,8 @@ class AdoptionActivity : AppCompatActivity() {
     }
 
     private fun getAdoptionInformationFromIntent() {
-        adoptionId = intent.getStringExtra(HomeFragment.ADOPTION_ID)!!
+        adoptionId = intent.getStringExtra("ADOPTION_ID")!!
         Log.d("TAG", "getAdoptionInformationFromIntent: $adoptionId")
-        adoptionKind = intent.getStringExtra(HomeFragment.ADOPTION_VARIETY)!!
-        adoptionImage = intent.getStringExtra(HomeFragment.ADOPTION_IMAGE)!!
     }
 
     private fun getRetrofitAdoptionList() {

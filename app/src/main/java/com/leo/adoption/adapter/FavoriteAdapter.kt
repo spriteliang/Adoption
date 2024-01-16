@@ -2,6 +2,8 @@ package com.leo.adoption.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,8 +11,9 @@ import com.bumptech.glide.Glide
 import com.leo.adoption.databinding.FavoriteItemBinding
 import com.leo.adoption.pojo.Adoption
 
-class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoritesAdapterViewHolder>() {
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoritesAdapterViewHolder>()  {
     lateinit var onItemClick: ((Adoption) -> Unit)
+
 
     inner class FavoritesAdapterViewHolder(val binding: FavoriteItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -47,4 +50,5 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoritesAdapterVie
             onItemClick.invoke(adoption)
         }
     }
+
 }
